@@ -3,7 +3,7 @@
 ## Planning
 
 - [x] Create project documentation
-- [ ] Review architecture
+- [x] Review architecture
 
 
 ## Setup
@@ -16,7 +16,7 @@
 
 ## Firebase
 
-- [ ] Create Firebase project
+- [x] Create Firebase project
 - [x] Connect Firebase
 - [x] Setup authentication
 - [x] Setup Firestore
@@ -45,18 +45,13 @@
 
 ## Tasks
 
-- [ ] Create task
-- [ ] Update task
-- [ ] Complete task
-- [ ] Delete task
+- [x] Create task
+- [x] Update task
+- [x] Complete task
+- [x] Delete task
 
 
 ## Final
 
-- [ ] Testing
+- [x] Testing
 - [ ] Deployment
-
-
-
-
-

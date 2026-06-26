@@ -11,6 +11,11 @@ service cloud.firestore {
       allow update, delete: if request.auth != null && request.auth.uid == resource.data.ownerId;
     }
 
+    match /Tasks/{taskId} {
+      allow read, update, delete: if request.auth != null && request.auth.uid == get(/databases/$(database)/documents/Projects/$(resource.data.projectId)).data.ownerId;
+      allow create: if request.auth != null && request.auth.uid == get(/databases/$(database)/documents/Projects/$(request.resource.data.projectId)).data.ownerId;
+    }
+
     // Fallback: require auth for all other documents
     match /{document=**} {
       allow read, write: if request.auth != null;

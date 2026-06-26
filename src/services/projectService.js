@@ -13,7 +13,7 @@ export async function getProjectsByOwner(ownerId) {
   return all.filter((p) => p.ownerId === ownerId)
 }
 
-export function subscribeProjectsByOwner(ownerId, cb) {
+export function subscribeProjectsByOwner(ownerId, cb, onError) {
   const q = query(collection(db, COLLECTION), where('ownerId', '==', ownerId))
   const unsub = onSnapshot(
     q,
@@ -23,7 +23,8 @@ export function subscribeProjectsByOwner(ownerId, cb) {
     },
     (err) => {
       console.error('subscribeProjectsByOwner error', err)
-    }
+      onError?.(err)
+    },
   )
   return unsub
 }
