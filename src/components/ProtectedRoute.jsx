@@ -7,7 +7,7 @@ export default function ProtectedRoute({ children }) {
   if (loading) {
     return (
       <main className="auth-page">
-        <p className="loading-state">Checking session...</p>
+        <p className="loading-state">Checking session</p>
       </main>
     )
   }

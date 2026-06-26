@@ -1,7 +1,7 @@
 import { useAuth } from '../hooks/useAuth.jsx'
 import { Link } from 'react-router-dom'
 import DashboardCard from '../components/DashboardCard'
-import AppNav from '../components/AppNav'
+import AppLayout from '../components/AppLayout'
 import { useEffect, useState } from 'react'
 import { getProjectsByOwner } from '../services/projectService'
 import { getTaskStatsForOwner } from '../services/taskService'
@@ -40,16 +40,18 @@ export default function DashboardPage() {
     }
   }, [user])
 
+  const completion =
+    taskStats.total === 0 ? '0%' : `${Math.round((taskStats.completed / taskStats.total) * 100)}%`
+
   return (
-    <div className="app-layout">
-      <AppNav />
+    <AppLayout>
       <main className="app-page dashboard-shell">
         <section className="dashboard-header">
           <div>
             <p className="dashboard-subtitle">Welcome back</p>
             <h1 className="dashboard-title">{user?.email ?? 'DevTrack user'}</h1>
             <p className="dashboard-description">
-              Your productivity dashboard is ready. Track projects and tasks in one place.
+              Track projects and tasks with a clear overview of your progress.
             </p>
           </div>
           <Link to="/projects" className="primary-link">
@@ -60,7 +62,7 @@ export default function DashboardPage() {
         {error && <p className="form-error">{error}</p>}
 
         {loading ? (
-          <p className="loading-state">Loading dashboard...</p>
+          <p className="loading-state">Loading dashboard</p>
         ) : (
           <section className="dashboard-grid">
             <DashboardCard
@@ -75,6 +77,7 @@ export default function DashboardPage() {
             <DashboardCard
               title="Tasks"
               value={taskStats.total}
+              accent
               description={
                 taskStats.total === 0
                   ? 'No tasks yet. Create tasks inside a project to stay organized.'
@@ -83,12 +86,12 @@ export default function DashboardPage() {
             />
             <DashboardCard
               title="Completion"
-              value={taskStats.total === 0 ? '0%' : `${Math.round((taskStats.completed / taskStats.total) * 100)}%`}
+              value={completion}
               description="Share of tasks marked complete across all projects."
             />
           </section>
         )}
       </main>
-    </div>
+    </AppLayout>
   )
 }

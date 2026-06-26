@@ -13,7 +13,7 @@ import ShareModal from '../components/ShareModal'
 import ShareManagerModal from '../components/ShareManagerModal'
 import ProjectCard from '../components/ProjectCard'
 import ProjectForm from '../components/ProjectForm'
-import AppNav from '../components/AppNav'
+import AppLayout from '../components/AppLayout'
 import './PageStyles.css'
 
 export default function ProjectsPage() {
@@ -96,8 +96,7 @@ export default function ProjectsPage() {
   }
 
   return (
-    <div className="app-layout">
-      <AppNav />
+    <AppLayout>
       <main className="app-page">
         <header className="page-header">
           <div>
@@ -108,7 +107,7 @@ export default function ProjectsPage() {
 
         {error && <p className="form-error">{error}</p>}
 
-        <section className="page-section">
+        <section className="page-section panel">
           <h2>{editing ? 'Edit Project' : 'Create Project'}</h2>
           <ProjectForm
             onSubmit={editing ? (data) => handleUpdate(editing.id, data) : handleCreate}
@@ -125,7 +124,7 @@ export default function ProjectsPage() {
         <section className="page-section">
           <h2>Your Projects</h2>
           {loading ? (
-            <p className="loading-state">Loading projects...</p>
+            <p className="loading-state">Loading projects</p>
           ) : projects.length === 0 ? (
             <div className="empty-state">
               <p>No projects yet. Create one above to get started.</p>
@@ -136,13 +135,13 @@ export default function ProjectsPage() {
                 <div key={project.id} className="project-row">
                   <ProjectCard project={project} onEdit={(p) => setEditing(p)} onDelete={handleDelete} />
                   <div className="project-actions">
-                    <Link to={`/projects/${project.id}/tasks`} className="text-link">
+                    <Link to={`/projects/${project.id}/tasks`} className="primary-link">
                       Tasks
                     </Link>
-                    <button type="button" onClick={() => { setShareProjectId(project.id); setShareOpen(true) }}>
+                    <button type="button" className="secondary" onClick={() => { setShareProjectId(project.id); setShareOpen(true) }}>
                       Share
                     </button>
-                    <button type="button" onClick={() => { setManageProjectId(project.id); setManageOpen(true) }}>
+                    <button type="button" className="secondary" onClick={() => { setManageProjectId(project.id); setManageOpen(true) }}>
                       Manage
                     </button>
                   </div>
@@ -165,6 +164,6 @@ export default function ProjectsPage() {
           onRevoked={() => show('Share revoked')}
         />
       </main>
-    </div>
+    </AppLayout>
   )
 }

@@ -27,34 +27,39 @@ export default function LoginPage() {
 
   return (
     <main className="page-shell">
-      <h1>Login</h1>
-      <form className="auth-form" onSubmit={handleSubmit}>
-        <label>
-          Email
-          <input
-            type="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Password
-          <input
-            type="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            required
-          />
-        </label>
-        {error && <p className="form-error">{error}</p>}
-        <button type="submit" disabled={submitting}>
-          {submitting ? 'Logging in...' : 'Login'}
-        </button>
-      </form>
-      <p>
-        Need an account? <Link to="/register">Register</Link>
-      </p>
+      <div className="auth-card">
+        <h1>Welcome back</h1>
+        <p>Sign in to continue managing your projects and tasks.</p>
+        <form className="auth-form" onSubmit={handleSubmit}>
+          <label>
+            Email
+            <input
+              type="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              placeholder="you@example.com"
+              required
+            />
+          </label>
+          <label>
+            Password
+            <input
+              type="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              placeholder="Enter your password"
+              required
+            />
+          </label>
+          {error && <p className="form-error">{error}</p>}
+          <button type="submit" disabled={submitting}>
+            {submitting ? 'Logging in...' : 'Login'}
+          </button>
+        </form>
+        <p className="auth-footer">
+          Need an account? <Link to="/register">Register</Link>
+        </p>
+      </div>
     </main>
   )
 }

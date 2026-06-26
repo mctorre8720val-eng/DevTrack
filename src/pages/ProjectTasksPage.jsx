@@ -12,7 +12,7 @@ import {
 } from '../services/taskService'
 import TaskForm from '../components/TaskForm'
 import TaskItem from '../components/TaskItem'
-import AppNav from '../components/AppNav'
+import AppLayout from '../components/AppLayout'
 import './PageStyles.css'
 
 export default function ProjectTasksPage() {
@@ -126,19 +126,17 @@ export default function ProjectTasksPage() {
 
   if (projectLoading) {
     return (
-      <div className="app-layout">
-        <AppNav />
+      <AppLayout>
         <main className="app-page">
-          <p className="loading-state">Loading project...</p>
+          <p className="loading-state">Loading project</p>
         </main>
-      </div>
+      </AppLayout>
     )
   }
 
   if (error || !project) {
     return (
-      <div className="app-layout">
-        <AppNav />
+      <AppLayout>
         <main className="app-page">
           <div className="empty-state">
             <p>{error || 'Project not found.'}</p>
@@ -147,13 +145,12 @@ export default function ProjectTasksPage() {
             </Link>
           </div>
         </main>
-      </div>
+      </AppLayout>
     )
   }
 
   return (
-    <div className="app-layout">
-      <AppNav />
+    <AppLayout>
       <main className="app-page">
         <header className="page-header">
           <div>
@@ -171,7 +168,7 @@ export default function ProjectTasksPage() {
           </p>
         </header>
 
-        <section className="page-section">
+        <section className="page-section panel">
           <h2>{editing ? 'Edit Task' : 'Add Task'}</h2>
           <TaskForm
             initial={editing ?? { title: '' }}
@@ -189,7 +186,7 @@ export default function ProjectTasksPage() {
         <section className="page-section">
           <h2>Tasks</h2>
           {loading ? (
-            <p className="loading-state">Loading tasks...</p>
+            <p className="loading-state">Loading tasks</p>
           ) : tasks.length === 0 ? (
             <div className="empty-state">
               <p>No tasks yet. Add your first task above.</p>
@@ -211,6 +208,6 @@ export default function ProjectTasksPage() {
           )}
         </section>
       </main>
-    </div>
+    </AppLayout>
   )
 }

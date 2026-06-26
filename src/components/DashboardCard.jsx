@@ -1,6 +1,6 @@
-export default function DashboardCard({ title, value, description, children }) {
+export default function DashboardCard({ title, value, description, accent = false, children }) {
   return (
-    <article className="dashboard-card">
+    <article className={`dashboard-card${accent ? ' dashboard-card--accent' : ''}`}>
       <div className="card-header">
         <div>
           <p className="card-title">{title}</p>
