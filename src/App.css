@@ -47,6 +47,27 @@
   }
 
   .vite {
+    .share-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .share-modal {
+      background: white;
+      padding: 16px;
+      border-radius: 8px;
+      min-width: 320px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+    .share-modal label { display:block; margin-bottom:8px }
+    .share-modal input, .share-modal select { width: 100%; padding:6px; margin-top:4px }
+    .share-modal .actions { display:flex; gap:8px; justify-content:flex-end; margin-top:12px }
+    .project-row { display:flex; align-items:flex-start; gap:12px }
+    .project-actions { display:flex; flex-direction:column; gap:8px }
     z-index: 0;
     top: 107px;
     height: 26px;

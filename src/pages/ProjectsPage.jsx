@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../hooks/useAuth.jsx'
-import { createProject, getProjectsByOwner, updateProject, deleteProject } from '../services/projectService'
+import { createProject, getProjectsByOwner, updateProject, deleteProject, subscribeProjectsByOwner } from '../services/projectService'
+import ShareModal from '../components/ShareModal'
 import ProjectCard from '../components/ProjectCard'
 import ProjectForm from '../components/ProjectForm'
 import './PageStyles.css'
@@ -11,30 +12,32 @@ export default function ProjectsPage() {
   const [loading, setLoading] = useState(true)
   const [editing, setEditing] = useState(null)
   const [submitting, setSubmitting] = useState(false)
+  const [message, setMessage] = useState('')
+  const [shareOpen, setShareOpen] = useState(false)
+  const [shareProjectId, setShareProjectId] = useState(null)
 
   useEffect(() => {
-    let mounted = true
-    async function load() {
-      setLoading(true)
-      try {
-        const items = await getProjectsByOwner(user.uid)
-        if (mounted) setProjects(items)
-      } catch (err) {
-        console.error('Failed to load projects', err)
-      } finally {
-        if (mounted) setLoading(false)
-      }
+    let unsub
+    if (!user) return
+    setLoading(true)
+    try {
+      unsub = subscribeProjectsByOwner(user.uid, (items) => {
+        setProjects(items)
+        setLoading(false)
+      })
+    } catch (err) {
+      console.error('Failed to subscribe to projects', err)
+      setLoading(false)
     }
-    if (user) load()
-    return () => (mounted = false)
+    return () => unsub && unsub()
   }, [user])
 
   async function handleCreate(data) {
     setSubmitting(true)
     try {
       await createProject({ ...data, ownerId: user.uid, createdAt: Date.now() })
-      const items = await getProjectsByOwner(user.uid)
-      setProjects(items)
+      setMessage('Project created')
+      setTimeout(() => setMessage(''), 3000)
     } catch (err) {
       console.error(err)
     } finally {
@@ -70,6 +73,8 @@ export default function ProjectsPage() {
     <main className="page-shell">
       <h1>Projects</h1>
 
+      {message && <div className="toast">{message}</div>}
+
       <section>
         <h2>Create Project</h2>
         <ProjectForm onSubmit={editing ? (data) => handleUpdate(editing.id, data) : handleCreate} submitting={submitting} initial={editing ?? { title: '', description: '' }} />
@@ -84,11 +89,18 @@ export default function ProjectsPage() {
         ) : (
           <div className="projects-list">
             {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} onEdit={(p) => setEditing(p)} onDelete={handleDelete} />
+              <div key={project.id} className="project-row">
+                <ProjectCard project={project} onEdit={(p) => setEditing(p)} onDelete={handleDelete} />
+                <div className="project-actions">
+                  <button onClick={() => { setShareProjectId(project.id); setShareOpen(true) }}>Share</button>
+                </div>
+              </div>
             ))}
           </div>
         )}
       </section>
+
+      <ShareModal open={shareOpen} onClose={() => setShareOpen(false)} projectId={shareProjectId} onShared={() => setMessage('Project shared')} />
     </main>
   )
 }
