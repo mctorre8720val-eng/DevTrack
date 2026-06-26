@@ -1,0 +1,5 @@
+.projects-list { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+.project-card { padding: 1rem; border-radius: 0.6rem; border: 1px solid #e5e7eb; background: white; }
+.project-actions { margin-top: 0.5rem; display:flex; gap:0.5rem }
+.project-form label { display:block; margin-bottom:0.5rem }
+.project-form input, .project-form textarea { width:100%; padding:0.5rem; border:1px solid #d1d5db; border-radius:0.4rem }
