@@ -6,12 +6,14 @@ import NotFoundPage from './pages/NotFoundPage'
 import ProjectsPage from './pages/ProjectsPage'
 import ProtectedRoute from './components/ProtectedRoute'
 import { AuthProvider } from './hooks/useAuth.jsx'
+import ToastProvider from './components/Toast.jsx'
 import './App.css'
 
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
+      <ToastProvider>
+        <BrowserRouter>
         <Routes>
           <Route
             path="/"
@@ -27,6 +29,7 @@ function App() {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
+      </ToastProvider>
     </AuthProvider>
   )
 }

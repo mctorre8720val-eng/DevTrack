@@ -32,7 +32,7 @@ async function run() {
 
     console.log('PROJECT_OK', docRef.id)
   } catch (err) {
-    console.error('ERR', err && err.toString ? err.toString() : err)
+    console.error('ERR', err && err.toString ? err.toString() : err)    
     process.exitCode = 1
   }
 }

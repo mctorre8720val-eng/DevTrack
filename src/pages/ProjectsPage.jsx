@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useAuth } from '../hooks/useAuth.jsx'
 import { createProject, getProjectsByOwner, updateProject, deleteProject, subscribeProjectsByOwner } from '../services/projectService'
 import ShareModal from '../components/ShareModal'
+import ShareManagerModal from '../components/ShareManagerModal'
 import ProjectCard from '../components/ProjectCard'
 import ProjectForm from '../components/ProjectForm'
 import './PageStyles.css'
@@ -15,6 +16,8 @@ export default function ProjectsPage() {
   const [message, setMessage] = useState('')
   const [shareOpen, setShareOpen] = useState(false)
   const [shareProjectId, setShareProjectId] = useState(null)
+  const [manageOpen, setManageOpen] = useState(false)
+  const [manageProjectId, setManageProjectId] = useState(null)
 
   useEffect(() => {
     let unsub
@@ -93,6 +96,7 @@ export default function ProjectsPage() {
                 <ProjectCard project={project} onEdit={(p) => setEditing(p)} onDelete={handleDelete} />
                 <div className="project-actions">
                   <button onClick={() => { setShareProjectId(project.id); setShareOpen(true) }}>Share</button>
+                  <button onClick={() => { setManageProjectId(project.id); setManageOpen(true) }}>Manage</button>
                 </div>
               </div>
             ))}
@@ -101,6 +105,7 @@ export default function ProjectsPage() {
       </section>
 
       <ShareModal open={shareOpen} onClose={() => setShareOpen(false)} projectId={shareProjectId} onShared={() => setMessage('Project shared')} />
+      <ShareManagerModal open={manageOpen} onClose={() => setManageOpen(false)} projectId={manageProjectId} onRevoked={() => setMessage('Share revoked')} />
     </main>
   )
 }
